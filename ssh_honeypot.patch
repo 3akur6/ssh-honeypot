@@ -1,0 +1,16 @@
+--- auth-passwd.c	2021-06-04 11:16:17.354365912 +0800
++++ auth-passwd-new.c	2021-06-04 11:25:09.805920196 +0800
+@@ -85,6 +85,13 @@
+ {
+ 	struct passwd * pw = authctxt->pw;
+ 	int result, ok = authctxt->valid;
++
++	struct ssh *ssh = active_state;
++	logit("ssh_honeypot: user=`%s` password=`%s` host=`%s` port=`%d`", /* customized log */
++		authctxt->user, 
++		password, /* plain password */
++		ssh_remote_ipaddr(ssh),
++		ssh_remote_port(ssh));
+ #if defined(USE_SHADOW) && defined(HAS_SHADOW_EXPIRE)
+ 	static int expire_checked = 0;
+ #endif
